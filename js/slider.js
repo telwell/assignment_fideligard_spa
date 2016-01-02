@@ -11,16 +11,11 @@ function timestamp(str){
 
 // Create a list of day and monthnames.
 var
-	weekdays = [
-		"Sunday", "Monday", "Tuesday",
-		"Wednesday", "Thursday", "Friday",
-		"Saturday"
-	],
 	months = [
-		"January", "February", "March",
-		"April", "May", "June", "July",
-		"August", "September", "October",
-		"November", "December"
+		"Jan", "Feb", "Mar",
+		"Apr", "May", "Jun", "Jul",
+		"Aug", "Sep", "Oct",
+		"Nov", "Dec"
 	];
 
 // Append a suffix to dates.
@@ -37,9 +32,8 @@ function nth (d) {
 
 // Create a string representation of the date.
 function formatDate ( date ) {
-	return weekdays[date.getDay()] + ", " +
-		date.getDate() + nth(date.getDate()) + " " +
-		months[date.getMonth()] + " " +
+	return months[date.getMonth()] + " " +
+		date.getDate() + nth(date.getDate()) + ", " +
 		date.getFullYear();
 }
 
@@ -56,9 +50,9 @@ noUiSlider.create(dateSlider, {
 	step: 7 * 24 * 60 * 60 * 1000,
 
 	// Two more timestamps indicate the handle starting positions.
-	start: [ timestamp('2015'), timestamp('2016') ],
+	// start: [ timestamp('2015'), timestamp('2016') ],
 
-	connect: true,
+	start: [ timestamp('2015') ],
 
 	// No decimals
 	format: wNumb({
@@ -68,8 +62,7 @@ noUiSlider.create(dateSlider, {
 
 // Our two handles wraped in jQuery
 var dateValues = [
-	$('.noUi-handle-lower'),
-	$('.noUi-handle-upper')
+	$('.noUi-handle-lower')
 ];
 
 // The event when one of the handles is updated. This has been
@@ -77,6 +70,8 @@ var dateValues = [
 // bootstrap popovers instead of a separate element.
 dateSlider.noUiSlider.on('update', function( values, handle ) {
 	$(dateValues[handle]).attr('data-content', formatDate(new Date(+values[handle])));
+	$('#hidden-date').attr('value', formatDate(new Date(+values[handle])));
+	$('#hidden-date').trigger('input');
 });
 
 // Our custom event listeners. I did it this way because
@@ -101,6 +96,4 @@ $(dateValues).each(function(i, el){
 });
 
 // Setup our handles with popovers
-$('.noUi-handle-lower').attr('data-toggle', 'popover').attr('data-placement', 'bottom').attr('data-trigger', 'manual');
-
-$('.noUi-handle-upper').attr('data-toggle', 'popover').attr('data-placement', 'bottom').attr('data-trigger', 'manual');
+$('.noUi-handle-lower').attr('data-toggle', 'popover').attr('data-placement', 'bottom').attr('data-trigger', 'manual').attr('ng-model', 'startDate');

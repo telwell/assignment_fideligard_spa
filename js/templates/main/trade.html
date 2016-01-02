@@ -1,0 +1,72 @@
+<!-- BEGIN Trade View -->
+<section class="col-sm-12" id="trade">
+
+	<h2>Trade</h2>
+	<form>
+		<div class="row">
+			<!-- Left Form -->
+			{{ stock.query.results.quote[0] }}
+			<section class="col-sm-6">
+				<div class="form-group">
+					<label for="symbol">Symbol:</label>
+					<input type="text" name="symbol" class="form-control" placeholder="Symbol" value="{{ stock.query.results.quote[0].Symbol }}" disabled>
+				</div>
+
+				<div class="form-group">
+					<label for="buy-sell">Buy/Sell:</label>
+					<select name="buy-sell" class="form-control">
+						<option value="buy">BUY</option>
+						<option value="sell">SELL</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="quantity">Quantity:</label>
+					<input type="number" name="quantity" class="form-control" ng-model="stock.quantity">
+				</div>
+
+				<div class="form-group">
+					<label for="order-date">Date:</label>
+					<input type="date" name="order-date" class="form-control" value="{{ stock.query.results.quote[0].Date }}">
+				</div>
+
+				<div class="form-group">
+					<label for="order-price">Price:</label>
+					<input type="number" name="order-price" class="form-control" value="{{ stock.query.results.quote[0].Close }}" disabled>
+				</div>
+
+				<div class="form-group">
+					<label for="order-cost">Cost:</label>
+					<input type="number" name="order-cost" class="form-control" value="{{ stock.quantity * stock.query.results.quote[0].Close }}" disabled>
+				</div>
+
+				<div class="form-group">
+					<input type="submit" class="btn btn-primary" value="Place Order">
+				</div>
+
+			</section>
+			<!-- END Left Form -->
+
+			<!-- Right Form -->
+			<section class="col-sm-6">
+				
+				<div class="form-group">
+					<label for="cash-available">Cash Available:</label>
+					<input type="number" name="cash-available" class="form-control" disabled>
+				</div>
+
+				<div class="form-group">
+					<label for="order-status">Order Status:</label>
+					<p>VALID/INVALID</p>
+				</div>
+
+			</section>
+			<!-- END Right Form -->
+
+		</div>
+		<!-- END Row -->
+
+	</form>
+
+</section>
+<!-- END Trade View-->

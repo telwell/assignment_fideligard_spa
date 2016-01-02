@@ -1,4 +1,4 @@
-var app = angular.module( 'fideliguardSPA',['ui.router'] );
+var app = angular.module( 'fideliguardSPA',['ui.router', 'rzModule'] );
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -8,28 +8,32 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	// set up some states on $stateProvider
 	$stateProvider
 
-		// General products view. I didn't specify a controller
-		// b/c in my index I had to include the ProductsCtrl in 
-		// order to have the filter work properly.
-		.state('products', {
+		.state('index', {
 			url: '',
-			templateUrl: 'js/templates/products.html',
-			controller: 'ProductsCtrl'
+			views: {
+				'stocks': {
+					templateUrl: 'js/templates/stocks.html', 
+					controller: 'StocksCtrl'
+				},
+				'main': {
+					templateUrl: 'js/templates/main/_main.html',
+					controller: 'TradeCtrl'
+				}
+			}
 		})
 
-		// Individual product view
-		.state('show', {
-			url: '/show/:id',
-			templateUrl: 'js/templates/product.html',
-			controller: 'ProductCtrl'
+		.state('index.portfolio', {
+			url: '/portfolio',
+			templateUrl: 'js/templates/main/portfolio.html',
+			controller: 'PortfolioCtrl'
 		})
 
-		// Cart view/update page
-		.state('cart', {
-			url: '/cart',
-			templateUrl: 'js/templates/cart.html',
-			controller: 'CartCtrl'
+		.state('index.trade', {
+			url: '/trade/:symb',
+			templateUrl: 'js/templates/main/trade.html',
+			controller: 'TradeCtrl'
 		})
+
 });
 
 // Error Logging
