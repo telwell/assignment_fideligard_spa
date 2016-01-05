@@ -29,7 +29,7 @@
 			<!-- END Sidebar -->
 
 			<!-- BEGIN #Main -->
-			<div id="main" class="col-sm-8">
+			<div id="mainWrapper" class="col-sm-8">
 				
 				<!-- BEGIN #date-slider -->
 				
@@ -41,7 +41,7 @@
 				<!-- END #date-slider -->
 
 				<!-- BEGIN Main Section -->
-					<div ui-view="main"></div>
+				<div ui-view="main"></div>
 				<!-- END Main Section -->
 
 			</div>
@@ -71,10 +71,13 @@
 <!-- Include our custom Services -->
 <script src="js/services/stocksService.js"></script>
 <script src="js/services/dateService.js"></script>
+<script src="js/services/profileService.js"></script>
 
 <!-- Include our custom Controllers -->
 <script src="js/controllers/StocksCtrl.js"></script>
 <script src="js/controllers/DateCtrl.js"></script>
 <script src="js/controllers/TradeCtrl.js"></script>
+<script src="js/controllers/TransactionsCtrl.js"></script>
+<script src="js/controllers/PortfolioCtrl.js"></script>
 
 </html>

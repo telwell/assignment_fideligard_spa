@@ -1,6 +1,15 @@
 #date-slider {
-  background-color: red;
   height: 100px; }
 
 #stocks table {
   font-size: 12px; }
+
+#trade .invalid {
+  color: red;
+  font-weight: bold; }
+#trade .valid {
+  color: green;
+  font-weight: bold; }
+
+#navSelect {
+  margin-top: 20px; }

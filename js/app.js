@@ -22,9 +22,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		})
 
+		// QUESTION: I don't know what was going wrong here, 
+		// but having the template named 'portfolio.html' was giving me
+		// errors, I had to change the name for some unknown reason.
 		.state('index.portfolio', {
 			url: '/portfolio',
-			templateUrl: 'js/templates/main/portfolio.html',
+			templateUrl: 'js/templates/main/_portfolio.html',
 			controller: 'PortfolioCtrl'
 		})
 
@@ -32,6 +35,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			url: '/trade/:symb',
 			templateUrl: 'js/templates/main/trade.html',
 			controller: 'TradeCtrl'
+		})
+
+		// QUESTION: Same thing here! Had to rename to _transactions.
+		.state('index.transactions', {
+			url: '/transactions',
+			templateUrl: 'js/templates/main/_transactions.html',
+			controller: 'TransactionsCtrl'
 		})
 
 });

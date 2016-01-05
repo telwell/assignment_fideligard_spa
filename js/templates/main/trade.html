@@ -1,20 +1,33 @@
 <!-- BEGIN Trade View -->
 <section class="col-sm-12" id="trade">
 
-	<h2>Trade</h2>
-	<form>
+	<div class="row">
+		<div class="col-sm-8">
+			<h2>Trade</h2>			
+		</div>
+
+		<div class="col-sm-4">
+			<select name="navSelect" id="navSelect" class="form-control" ng-model="currentPage" ng-change="go(currentPage)">
+				<option value="trade">Trade</option>
+				<option value="portfolio">Portfolio</option>
+				<option value="transactions">Transactions</option>
+			</select>
+		</div>
+
+	</div>
+	
+	<form name="tradeForm" ng-submit="processForm(tradeForm.$valid)">
 		<div class="row">
 			<!-- Left Form -->
-			{{ stock.query.results.quote[0] }}
 			<section class="col-sm-6">
 				<div class="form-group">
 					<label for="symbol">Symbol:</label>
-					<input type="text" name="symbol" class="form-control" placeholder="Symbol" value="{{ stock.query.results.quote[0].Symbol }}" disabled>
+					<input type="text" name="symbol" class="form-control" placeholder="Symbol" ng-model="formData.symbol" disabled>
 				</div>
 
 				<div class="form-group">
 					<label for="buy-sell">Buy/Sell:</label>
-					<select name="buy-sell" class="form-control">
+					<select name="buy-sell" class="form-control" ng-model="formData.buySell">
 						<option value="buy">BUY</option>
 						<option value="sell">SELL</option>
 					</select>
@@ -22,22 +35,22 @@
 
 				<div class="form-group">
 					<label for="quantity">Quantity:</label>
-					<input type="number" name="quantity" class="form-control" ng-model="stock.quantity">
+					<input type="number" name="quantity" class="form-control" ng-model="formData.quantity" ng-change="formData.orderCost = formData.quantity * formData.orderPrice">
 				</div>
 
 				<div class="form-group">
 					<label for="order-date">Date:</label>
-					<input type="date" name="order-date" class="form-control" value="{{ stock.query.results.quote[0].Date }}">
+					<input type="date" name="order-date" class="form-control" ng-model="formData.orderDate" disabled>
 				</div>
 
 				<div class="form-group">
 					<label for="order-price">Price:</label>
-					<input type="number" name="order-price" class="form-control" value="{{ stock.query.results.quote[0].Close }}" disabled>
+					<input type="number" name="order-price" class="form-control" ng-model="formData.orderPrice" disabled>
 				</div>
 
 				<div class="form-group">
 					<label for="order-cost">Cost:</label>
-					<input type="number" name="order-cost" class="form-control" value="{{ stock.quantity * stock.query.results.quote[0].Close }}" disabled>
+					<input type="number" name="order-cost" class="form-control" ng-model="formData.orderCost" disabled>
 				</div>
 
 				<div class="form-group">
@@ -52,12 +65,13 @@
 				
 				<div class="form-group">
 					<label for="cash-available">Cash Available:</label>
-					<input type="number" name="cash-available" class="form-control" disabled>
+					<input type="text" name="cash-available" class="form-control" ng-model="formData.cashAvailable" disabled>
 				</div>
 
 				<div class="form-group">
 					<label for="order-status">Order Status:</label>
-					<p>VALID/INVALID</p>
+					<p class="valid" ng-if="formData.valid">VALID</p>
+					<p class="invalid" ng-if="!formData.valid">INVALID</p>
 				</div>
 
 			</section>

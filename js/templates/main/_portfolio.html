@@ -1,0 +1,116 @@
+<!-- BEGIN Portfolio -->
+<section class="col-sm-12" id="portfolio">
+	
+	<div class="row">
+		<div class="col-sm-8">
+			<h2>Portfolio</h2>			
+		</div>
+		
+		<!-- INFO: great resource for this: http://stackoverflow.com/questions/23133026/angularjs-changing-routes-based-on-drop-down-not-working -->
+		<div class="col-sm-4">
+			<select name="navSelect" id="navSelect" class="form-control" ng-model="currentPage" ng-change="go(currentPage)">
+				<option value="portfolio">Portfolio</option>
+				<option value="transactions">Transactions</option>
+			</select>
+		</div>
+
+	</div>
+	<!-- END ROW -->
+
+	<!-- BEGIN Portfolio -->
+	<div class="row">
+		
+		<!-- BEGIN Aggregate Table -->
+		<section id="aggregate-table" class="col-sm-12">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>Cost Basis</th>
+						<th>Current Value</th>
+						<th>Profit/Loss</th>
+						<th>1d</th>
+						<th>7d</th>
+						<th>30d</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td>{{ totals.costBasis | currency }}</td>
+						<td>{{ totals.currentValue | currency }}</td>
+						<td>{{ totals.profitLoss | currency }}</td>
+						<td>{{ totals.oneD | currency }}</td>
+						<td>{{ totals.sevenD | currency }}</td>
+						<td>{{ totals.thirtyD | currency }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+		<!-- END Aggregate Table -->
+
+		<section id="portfolio-table" class="col-sm-12">
+
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>Symbol</th>
+						<th>Quantity</th>
+						<th>Cost Basis</th>
+						<th>Current Value</th>
+						<th>Profit/Loss</th>
+						<th>Current Price</th>
+						<th>1d</th>
+						<th>7d</th>
+						<th>30d</th>
+						<th>Trade?</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<!-- QUESTION: Well, statement. Wouldn't it be cool to be able to use
+								something like AS here so you could name these bindings to be referenced 
+								in other bindings? Maybe in future Angular versions -->
+
+					<!-- QUESTION: Alright I know using ng-init isn't the best way to do this but I
+									couldn't find a better alternative at this time. Also, this is just
+									extremely ugly. I should move everything to the controller but I'm not
+									entirely sure how to go about doing that? I don't want to iterate through
+									the object multiple times and I'm already doing it here with the ng-repeat. -->
+
+					<!-- QUESTION: ALSO this method doesn't allow the numbers to change when the 
+									date changes... the only number this is a problem is currentValue 
+									but nonetheless it's not the best method -->
+					<tr ng-repeat="(symbol, info) in portfolio">
+						<td>{{ symbol }}</td>
+						<td>{{ info.quantity }}</td>
+						<td ng-init="totals.costBasis = totals.costBasis + info.total">
+							{{ info.total | currency }}
+						</td>
+						<td ng-init="totals.currentValue = totals.currentValue + (info.quantity * stockData[symbol].query.results.quote[0].Close)">
+							{{ (info.quantity * stockData[symbol].query.results.quote[0].Close) | currency }}
+						</td>
+						<td ng-init="totals.profitLoss = totals.profitLoss + info.rawProfit">
+							{{ info.rawProfit | currency }}
+						</td>
+						<td>{{ stockData[symbol].query.results.quote[0].Close | currency }}</td>
+						<td ng-init="totals.oneD = totals.oneD + (stockData[symbol].query.results.quote[0].Close - stockData[symbol].query.results.quote[1].Close)">
+							{{ stockData[symbol].query.results.quote[0].Close - stockData[symbol].query.results.quote[1].Close | currency }}
+						</td>
+						<td ng-init="totals.sevenD = totals.sevenD + (stockData[symbol].query.results.quote[0].Close - stockData[symbol].query.results.quote[7].Close)">
+							{{ stockData[symbol].query.results.quote[0].Close - stockData[symbol].query.results.quote[7].Close | currency }}
+						</td>
+						<td ng-init="totals.thirtyD = totals.thirtyD + (stockData[symbol].query.results.quote[0].Close - (stockData[symbol].query.results.quote[stockData[symbol].query.results.quote.length - 1].Close))">
+							{{ (stockData[symbol].query.results.quote[0].Close - (stockData[symbol].query.results.quote[stockData[symbol].query.results.quote.length - 1].Close)) | currency }}
+						</td>
+						<td><a ui-sref="index.trade( { symb: '{{ key }}' } )">Trade?</a></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</section>
+
+	</div>
+	<!-- END Portfolio -->
+
+</section>
+<!-- END Portfolio -->
